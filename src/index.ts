@@ -2,8 +2,12 @@ import { json } from 'body-parser'
 import dotenv from 'dotenv'
 import express, { Express, Request, Response } from 'express'
 import { ServerConfig } from './config'
+import connect from './db'
 
 dotenv.config()
+
+// connect mongo db server
+connect()
 
 const app: Express = express()
 
