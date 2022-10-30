@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import { Schema } from 'mongoose'
 import { JwtConfig } from '../../../config'
@@ -68,24 +67,6 @@ UserSchema.methods.getSignedToken = function () {
   return jwt.sign({ id: this._id }, JwtConfig.secret, {
     expiresIn: JwtConfig.expire,
   })
-}
-
-/**
- *
- * getResetPasswordToken
- *
- * function to get reset password token when the time is expired
- *
- * @returns
- */
-UserSchema.methods.getResetPasswordToken = function () {
-  const resetToken = crypto.randomBytes(20).toString('hex')
-  this.resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex')
-  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
-  return resetToken
 }
 
 export default UserSchema

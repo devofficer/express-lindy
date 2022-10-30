@@ -20,7 +20,8 @@ const login = async (req: Request, res: Response, next: any) => {
     if (!user) return res.status(401).send('Invalid Email')
     const isMatch = await user.matchPassword(password)
     if (!isMatch) return res.status(401).send('Invalid Password')
-    res.status(200).send(user)
+    const token = user.getSignedToken()
+    res.status(200).send({ token: token })
   } catch (e) {
     res.status(500).send('Can not Login')
   }
