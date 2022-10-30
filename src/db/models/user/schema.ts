@@ -15,7 +15,6 @@ const UserSchema: Schema = new Schema({
   },
   password: {
     type: String,
-    lowercase: true,
     required: [true, 'Password is required'],
     minlength: [8, 'Please use minimum of 8 characters'],
   },
@@ -34,10 +33,11 @@ const UserSchema: Schema = new Schema({
  * Save the hash vale of user input password
  *
  */
-UserSchema.pre<UserInterface>('save', async function (next: any) {
+UserSchema.pre<UserInterface>('save', function (next: any) {
   if (!this.isModified('password')) return next()
-  const salt = await bcrypt.genSalt(10)
-  this.password = bcrypt.hashSync(this.password, salt)
+  const hash = bcrypt.hashSync(this.password, 10)
+  console.log(this.password, hash)
+  this.password = hash
   next()
 })
 
@@ -49,8 +49,11 @@ UserSchema.pre<UserInterface>('save', async function (next: any) {
  * @param password
  * @returns { boolean }
  */
-UserSchema.methods.matchPassword = async function (password: string) {
-  return await bcrypt.compare(password, this.password)
+UserSchema.methods.matchPassword = function (password: string) {
+  console.log(password, this.password)
+  const result = bcrypt.compareSync(password, this.password)
+  console.log(result)
+  return bcrypt.compareSync(password, this.password)
 }
 
 /**
