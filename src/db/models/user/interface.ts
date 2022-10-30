@@ -1,10 +1,11 @@
 import { Document } from 'mongoose'
 
-interface UserInterface extends Document {
+interface IUser extends Document {
   email: string
   password: string
-  walletAddress: string
+  wallet: string
   matchPassword(password: string): boolean | PromiseLike<boolean>
+  getSignedToken(): string
 }
 
-export default UserInterface
+export default IUser

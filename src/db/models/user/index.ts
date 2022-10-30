@@ -1,3 +1,3 @@
-export * as UserInterface from './interface'
-export * as User from './model'
-export * as UserSchema from './schema'
+export { default as IUser } from './interface'
+export { default as User } from './model'
+export { default as UserSchema } from './schema'

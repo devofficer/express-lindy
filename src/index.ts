@@ -1,17 +1,20 @@
-import { json } from 'body-parser'
 import dotenv from 'dotenv'
 import express, { Express, Request, Response } from 'express'
 import { ServerConfig } from './config'
-import connect from './db'
+import db from './db'
+import { auth } from './routes'
+
+db.on('connected', () => {
+  console.log(db.host)
+})
 
 dotenv.config()
 
-// connect mongo db server
-connect()
-
 const app: Express = express()
 
-app.use(json())
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use('/api/auth', auth)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express Typescript Server')

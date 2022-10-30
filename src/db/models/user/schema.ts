@@ -5,7 +5,7 @@ import { Schema } from 'mongoose'
 import { JwtConfig } from '../../../config'
 import UserInterface from './interface'
 
-const UserSchema = new Schema({
+const UserSchema: Schema = new Schema({
   email: {
     type: String,
     lowercase: true,
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     required: [true, 'Password is required'],
     minlength: [8, 'Please use minimum of 8 characters'],
   },
-  walletAddress: {
+  wallet: {
     type: String,
     lowercase: true,
     required: [true, 'Wallet Address is required'],
@@ -61,7 +61,7 @@ UserSchema.methods.matchPassword = async function (password: string) {
  * @param password
  * @returns { string }
  */
-UserSchema.methods.getSignedToken = function (password: string) {
+UserSchema.methods.getSignedToken = function () {
   return jwt.sign({ id: this._id }, JwtConfig.secret, {
     expiresIn: JwtConfig.expire,
   })
