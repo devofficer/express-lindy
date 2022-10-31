@@ -22,8 +22,6 @@ const UserSchema: Schema = new Schema({
     lowercase: true,
     required: [true, 'Wallet Address is required'],
   },
-  resetPasswordToken: String,
-  resetPasswordExpire: String,
 })
 
 /**
@@ -48,7 +46,6 @@ UserSchema.pre<UserInterface>('save', function (next: any) {
  * @returns { boolean }
  */
 UserSchema.methods.matchPassword = function (password: string) {
-  console.log(password, this.password)
   const result = bcrypt.compareSync(password, this.password)
   return bcrypt.compareSync(password, this.password)
 }
