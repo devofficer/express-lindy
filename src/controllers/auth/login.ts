@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { IUser, User } from '../../db/models/user'
 
 /**
@@ -10,7 +10,7 @@ import { IUser, User } from '../../db/models/user'
  * @param res response for the request
  * @param next middleware
  */
-const login = async (req: Request, res: Response, next: any) => {
+const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body
   if (!email || !password)
     return next(res.status(401).send('Invalid Credentails'))

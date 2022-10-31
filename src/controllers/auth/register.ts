@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { User } from '../../db/models/user'
 
 /**
@@ -10,14 +10,14 @@ import { User } from '../../db/models/user'
  * @param res response for the request
  * @param next middleware
  */
-const register = async (req: Request, res: Response, next: any) => {
-  const { email, password, wallet } = req.body
+const register = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password, address } = req.body
 
   try {
     const user = await User.create({
       email,
       password,
-      wallet,
+      address,
     })
 
     const token = user.getSignedToken()

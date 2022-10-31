@@ -17,7 +17,7 @@ const UserSchema: Schema = new Schema({
     required: [true, 'Password is required'],
     minlength: [8, 'Please use minimum of 8 characters'],
   },
-  wallet: {
+  address: {
     type: String,
     lowercase: true,
     required: [true, 'Wallet Address is required'],
@@ -35,7 +35,6 @@ const UserSchema: Schema = new Schema({
 UserSchema.pre<UserInterface>('save', function (next: any) {
   if (!this.isModified('password')) return next()
   const hash = bcrypt.hashSync(this.password, 10)
-  console.log(this.password, hash)
   this.password = hash
   next()
 })
@@ -51,7 +50,6 @@ UserSchema.pre<UserInterface>('save', function (next: any) {
 UserSchema.methods.matchPassword = function (password: string) {
   console.log(password, this.password)
   const result = bcrypt.compareSync(password, this.password)
-  console.log(result)
   return bcrypt.compareSync(password, this.password)
 }
 
