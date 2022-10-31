@@ -3,6 +3,11 @@
 - Express.js + JWT Authentication
 - MongoDB
 
+### System Requirement
+
+- Node.js 18.7.0
+- MongoDB 6.0.2
+
 ### Database Configuration
 
 We can configure the configuration of database on `.env` or `/src/config/mongo.ts`.
