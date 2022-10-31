@@ -62,13 +62,14 @@ const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {
 const authorizeJwt = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', function (err, user, jwtToken) {
     const { address } = req.params
+    const lastLogout = user.lastLogout
     if (err) {
       console.log(err)
       return res.status(401).json({ status: 'error', code: 'unauthorized' })
     }
     if (!user) {
       return res.status(500).json({ status: 'error', code: 'unauthorized' })
-    } else if (address !== user.address) {
+    } else if (address !== user.address || lastLogout !== jwtToken.lastLogout) {
       return res.status(401).json({ status: 'error', code: 'unauthorized' })
     } else {
       next()
@@ -76,4 +77,21 @@ const authorizeJwt = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next)
 }
 
-export { authenticateJwt, authorizeJwt }
+const updateLastLogout = (req: Request, res: Response, next: NextFunction) => {
+  passport.authenticate('jwt', function (err, user, jwtToken) {
+    if (err) {
+      console.log(err)
+      return res.status(401).json({ status: 'error', code: 'unauthorized' })
+    }
+    if (!user) {
+      return res.status(500).json({ status: 'error', code: 'unauthorized' })
+    } else {
+      user.lastLogout = Date.now
+      user.save(function () {
+        next()
+      })
+    }
+  })(req, res, next)
+}
+
+export { authenticateJwt, authorizeJwt, updateLastLogout }

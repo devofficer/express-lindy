@@ -22,6 +22,10 @@ const UserSchema: Schema = new Schema({
     lowercase: true,
     required: [true, 'Wallet Address is required'],
   },
+  lastLogout: {
+    type: String,
+    default: Date.now,
+  },
 })
 
 /**
@@ -60,7 +64,7 @@ UserSchema.methods.matchPassword = function (password: string) {
  */
 UserSchema.methods.getSignedToken = function () {
   return jwt.sign(
-    { email: this.email, address: this.address },
+    { email: this.email, address: this.address, lastLogout: this.lastLogout },
     JwtConfig.secret
   )
 }
