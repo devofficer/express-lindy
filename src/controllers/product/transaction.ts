@@ -15,7 +15,7 @@ const transaction = async (req: Request, res: Response, next: NextFunction) => {
   const { address } = req.params
   const page = req.params.page ? req.params.page : PaginationConfig.page
   const offset = req.params.offset ? req.params.offset : PaginationConfig.offset
-  const response = await axios.get('https://api.etherscan.io/api', {
+  const response = await axios.get(EtherScan.url, {
     params: {
       module: EtherScan.type,
       action: EtherScan.action,
