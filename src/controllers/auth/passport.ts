@@ -86,7 +86,7 @@ const updateLastLogout = (req: Request, res: Response, next: NextFunction) => {
     if (!user) {
       return res.status(500).json({ status: 'error', code: 'unauthorized' })
     } else {
-      user.lastLogout = Date.now
+      user.lastLogout = Date.now()
       user.save(function () {
         next()
       })

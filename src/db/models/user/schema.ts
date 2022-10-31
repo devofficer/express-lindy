@@ -24,7 +24,7 @@ const UserSchema: Schema = new Schema({
   },
   lastLogout: {
     type: String,
-    default: Date.now,
+    default: Date.now(),
   },
 })
 
