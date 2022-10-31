@@ -26,6 +26,13 @@ passport.use(
   )
 )
 
+/**
+ *
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', function (err, user, info) {
     if (err) {
@@ -40,4 +47,20 @@ const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next)
 }
 
-export { authenticateJWT }
+const authorizeJWT = (req: Request, res: Response, next: NextFunction) => {
+  passport.authenticate('jwt', function (err, user, jwtToken) {
+    const { address } = req.params
+    if (err) {
+      return res.status(401).json({ status: 'error', code: 'unauthorized' })
+    }
+    if (!user) {
+      return res.status(401).json({ status: 'error', code: 'unauthorized' })
+    } else if (address !== user.address) {
+      return res.status(401).json({ status: 'error', code: 'unauthorized' })
+    } else {
+      next()
+    }
+  })
+}
+
+export { authenticateJWT, authorizeJWT }
