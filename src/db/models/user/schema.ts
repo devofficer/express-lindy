@@ -62,9 +62,10 @@ UserSchema.methods.matchPassword = function (password: string) {
  * @returns { string }
  */
 UserSchema.methods.getSignedToken = function () {
-  return jwt.sign({ id: this._id, address: this.address }, JwtConfig.secret, {
-    expiresIn: JwtConfig.expire,
-  })
+  return jwt.sign(
+    { email: this.email, address: this.address },
+    JwtConfig.secret
+  )
 }
 
 export default UserSchema
