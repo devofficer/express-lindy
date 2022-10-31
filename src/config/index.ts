@@ -1,3 +1,5 @@
+export * as EtherScan from './etherscan'
 export * as JwtConfig from './jwt'
 export * as MongoConfig from './mongo'
+export * as PaginationConfig from './pagination'
 export * as ServerConfig from './server'

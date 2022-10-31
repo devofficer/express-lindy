@@ -27,13 +27,16 @@ passport.use(
 )
 
 /**
+ * authenticateJwt
  *
+ * Authenticate an user using jwt
  *
- * @param req
- * @param res
- * @param next
+ * @param req request from the frontend
+ * @param res response to the frontend
+ * @param next middleware
  */
-const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
+
+const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', function (err, user, info) {
     if (err) {
       console.log(err)
@@ -47,7 +50,16 @@ const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next)
 }
 
-const authorizeJWT = (req: Request, res: Response, next: NextFunction) => {
+/**
+ * authorizeJwt
+ *
+ * Authorize an user using jwt and wallet address
+ *
+ * @param req request from frontend
+ * @param res response to the frontend
+ * @param next middleware
+ */
+const authorizeJwt = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', function (err, user, jwtToken) {
     const { address } = req.params
     if (err) {
@@ -63,4 +75,4 @@ const authorizeJWT = (req: Request, res: Response, next: NextFunction) => {
   })
 }
 
-export { authenticateJWT, authorizeJWT }
+export { authenticateJwt, authorizeJwt }
